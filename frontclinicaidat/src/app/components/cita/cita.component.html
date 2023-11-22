@@ -1,0 +1,112 @@
+<div class="container">
+  <form [formGroup]="formulario" class="form">
+    <h1 style="text-align: center" class="titulo">Registrar Cita</h1>
+    <div class="fila" style="display: flex; justify-content: space-between">
+      <mat-form-field appearance="fill" >
+        <mat-label>PACIENTE</mat-label>
+        <mat-select formControlName="paciente" required>
+          <mat-option *ngFor="let item of pacientes" [value]="item.id">{{item.nombre + ' ' + item.apellido}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field appearance="fill"  >
+        <mat-label>MEDICO</mat-label>
+        <mat-select formControlName="medico" required>
+          <mat-option *ngFor="let item of medicos" [value]="item.id">{{item.nombre + ' ' + item.apellido}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+      <div class="fila" style="display: flex; justify-content: space-between">
+
+        <mat-form-field >
+          <mat-label>Fecha </mat-label>
+          <input matInput formControlName="fecha">
+        </mat-form-field>
+
+        <mat-form-field >
+          <mat-label>Hora </mat-label>
+          <input matInput formControlName="hora">
+        </mat-form-field>
+
+        <mat-form-field >
+          <mat-label>Numero Poliza </mat-label>
+          <input matInput formControlName="numeropoliza">
+        </mat-form-field>
+    </div>
+
+    <div class="fila" style="display: flex; justify-content: space-between">
+
+      <mat-form-field appearance="fill" >
+        <mat-label>Aseguradora</mat-label>
+        <mat-select formControlName="aseguradora" required>
+          <mat-option *ngFor="let item of aseguradoras" [value]="item.id">{{item.nombre}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <mat-form-field appearance="fill" >
+        <mat-label>Usuario</mat-label>
+        <mat-select formControlName="usuario" required>
+          <mat-option *ngFor="let item of usuarios" [value]="item.id">{{item.nombre + ' ' + item.apellido}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <br>
+
+    <button mat-raised-button color="basic" (click)="enviarGuardar()">
+      <img src="assets/images/guardar.png" class="example-image">
+    </button>
+    <button mat-raised-button color="basic" [hidden]="idSeleccionado <= 0" (click)="eliminar()">
+      <img src="assets/images/eliminar.png" class="example-image">
+    </button>
+    <button mat-raised-button color="basic" (click)="cancelar()">
+      <img src="assets/images/cancelar.png" class="example-image">
+    </button>
+
+    <div>
+      <table mat-table [dataSource]="cita" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="idpaciente">
+          <th mat-header-cell *matHeaderCellDef> Paciente </th>
+          <td mat-cell *matCellDef="let element"> {{element.paciente.nombre + ' ' + element.paciente.apellido}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="idmedico">
+          <th mat-header-cell *matHeaderCellDef> Medico </th>
+          <td mat-cell *matCellDef="let element"> {{element.medico.nombre + ' ' + element.medico.apellido}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="idaseguradora">
+          <th mat-header-cell *matHeaderCellDef> Aseguradora </th>
+          <td mat-cell *matCellDef="let element"> {{element.aseguradora.nombre}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.fecha}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="hora">
+          <th mat-header-cell *matHeaderCellDef> Hora </th>
+          <td mat-cell *matCellDef="let element"> {{element.hora}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="numeropoliza">
+          <th mat-header-cell *matHeaderCellDef> Numero Poliza </th>
+          <td mat-cell *matCellDef="let element"> {{element.numeropoliza}} </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="cargarDatos(row)"></tr>
+      </table>
+    </div>
+  </form>
+</div>

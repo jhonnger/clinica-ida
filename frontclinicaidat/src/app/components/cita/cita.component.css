@@ -1,0 +1,18 @@
+.flex{
+  flex: auto;
+}
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+}
+.fila mat-form-field{
+  margin: 10px;
+}
+
+.example-image {
+  width: 40px;
+  height: 40px;
+  margin-right: 10px;
+}

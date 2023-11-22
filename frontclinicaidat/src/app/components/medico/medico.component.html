@@ -1,0 +1,141 @@
+<div class="container">
+
+  <form [formGroup]="formulario" class="form columna"  #formDirective="ngForm" >
+    <h1  class="titulo">Registrar Medico</h1>
+    <div class="fila" style="display: flex; justify-content: space-between">
+
+      <mat-form-field class="flex">
+        <mat-label>Nombre</mat-label>
+        <input matInput formControlName="nombre">
+        <mat-error *ngIf="formulario.get('nombre')?.hasError('required')">
+          <a> El nombre es obligatorio</a>
+        </mat-error>
+      </mat-form-field>
+      <mat-form-field class="flex">
+        <mat-label>Apellidos</mat-label>
+        <input matInput formControlName="apellido">
+      </mat-form-field>
+      <mat-form-field class="flex">
+        <mat-label>Direccion</mat-label>
+        <input matInput formControlName="direccion">
+      </mat-form-field>
+      <mat-form-field class="flex">
+        <mat-label>Fecha de Nacimiento</mat-label>
+        <input matInput formControlName="fechanacimiento">
+      </mat-form-field>
+    </div>
+
+    <div class="fila" style="display: flex; justify-content: space-between">
+      <mat-form-field class="flex">
+        <mat-label>Dni</mat-label>
+        <input matInput formControlName="dni">
+      </mat-form-field>
+      <mat-form-field appearance="fill" class="flex">
+        <mat-label>Sexo</mat-label>
+        <mat-select formControlName="sexo"  required>
+          <mat-option *ngFor="let item of sexo" [value]="item">{{item}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field class="flex">
+        <mat-label>CMP</mat-label>
+        <input matInput formControlName="cmp">
+      </mat-form-field>
+      <mat-form-field class="flex">
+        <mat-label>Celular</mat-label>
+        <input matInput formControlName="celular">
+      </mat-form-field>
+    </div>
+    <div class="fila" style="display: flex; justify-content: space-between">
+
+      <mat-form-field appearance="fill" style="flex: 0.25">
+        <mat-label>Especialidad</mat-label>
+        <mat-select formControlName="especialidad" required>
+          <mat-option *ngFor="let item of especialidades" [value]="item.id">{{item.nombre}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <br>
+    <div class="fila" style="display: flex; ">
+      <button style="flex: 0.25" mat-raised-button color="basic" class="primary-bg flex" (click)="enviarGuardar()" [hidden]="!(idSeleccionado <= 0)">
+        Guardar
+      </button>
+      <button style="flex: 0.25" mat-raised-button class="primary-bg flex" color="basic" [hidden]="idSeleccionado <= 0" (click)="enviarGuardar()">
+        Modificar
+      </button>
+      <button style="flex: 0.25" class=" flex" mat-raised-button type="button" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+
+    <div>
+      <br>
+      <br>
+      <table mat-table [dataSource]="medico" class="mat-elevation-z8">
+
+        <!-- Position Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="apellido">
+          <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+          <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="sexo">
+          <th mat-header-cell *matHeaderCellDef> Sexo </th>
+          <td mat-cell *matCellDef="let element"> {{element.sexo}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="celular">
+          <th mat-header-cell *matHeaderCellDef> Celular </th>
+          <td mat-cell *matCellDef="let element"> {{element.celular}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="dni">
+          <th mat-header-cell *matHeaderCellDef> Dni </th>
+          <td mat-cell *matCellDef="let element"> {{element.dni}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="cmp">
+          <th mat-header-cell *matHeaderCellDef> CMP </th>
+          <td mat-cell *matCellDef="let element"> {{element.cmp}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Acción </th>
+          <td mat-cell *matCellDef="let element">
+
+            <button type="button" (click)="cargarDatos(element)" mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+                    class="action-button">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button type="button" (click)="mostrarConfirmarEliminar(element)" mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+                    class="action-button">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+      </table>
+    </div>
+  </form>
+
+</div>

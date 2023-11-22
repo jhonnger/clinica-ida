@@ -1,0 +1,52 @@
+
+
+.example-button {
+  display: flex;
+  align-items: center;
+  color: white;
+  border-radius: 5px;
+  font-size: 16px;
+  font-weight: bold;
+  font-family: Arial, sans-serif;
+  line-height: 50px;
+}
+
+.example-image {
+  width: 30px;
+  height: 30px;
+  margin-right: 10px;
+}
+
+.toolbar {
+  background-color: rgba(163, 33, 243, 0.89);
+  color: white;
+  font-size: 24px;
+  font-weight: bold;
+  padding: 16px;
+}
+
+.main-container{
+
+}
+.menu{
+  padding: 15px 5px;
+}
+.menu > button{
+  width: 100%;
+  text-align: left;
+  justify-content: left;
+  padding: 10px;
+}
+.menu > div > button{
+  display: flex;
+  padding-left: 70px;
+  width: 100%;
+  justify-content: left;
+}
+.app{
+  margin: 0 auto;
+}
+
+mat-sidenav{
+  width: 300px;
+}

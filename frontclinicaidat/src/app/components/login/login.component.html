@@ -1,0 +1,27 @@
+<div class="container">
+
+  <form [formGroup]="formulario" class="form">
+    <h1  class="titulo">Iniciar Sesion</h1>
+    <br><br>
+    <mat-form-field class="full-with">
+      <mat-label>Usuario</mat-label>
+      <input matInput formControlName="usuario">
+    </mat-form-field>
+    <mat-form-field class="full-with">
+      <mat-label>Contraseña</mat-label>
+      <input matInput type="password" formControlName="contrasena">
+    </mat-form-field>
+    <br>
+    <h4>Cargo</h4>
+    <mat-form-field appearance="fill" class="full-with">
+      <mat-label>Cargo</mat-label>
+      <mat-select formControlName="rol" matNativeControl required>
+        <mat-option *ngFor="let item of roles" [value]="item.id">{{item.descripcion}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+    <br>
+
+    <button mat-raised-button color="primary" class="full-with btn-login" (click)="enviar()">Enviar</button>
+
+  </form>
+</div>

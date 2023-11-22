@@ -1,0 +1,76 @@
+<mat-toolbar class="toolbar primary-bg"  *ngIf="!isLogin">
+  <span>CLINICA LA MOLINA</span>
+</mat-toolbar>
+<div class="main-container">
+
+
+
+
+  <mat-sidenav-container class="example-container">
+    <mat-sidenav mode="side" opened>
+      <div class="menu"  *ngIf="!isLogin">
+        <button mat-button class="example-button" (click)="toggleBotonInicio()">
+          <img src="assets/images/archivo.png" class="example-image">
+          Inicio
+        </button>
+
+        <div *ngIf="botonInicioExpandido" [@expandirAnimacion]>
+
+          <button mat-button routerLink="/login">
+            <img src="assets/images/salir.png" class="example-image">
+            Salir</button>
+        </div>
+
+
+
+
+        <button mat-button    class="example-button" (click)="toggleBotonMant()">
+          <img src="assets/images/mantenimiento.png" class="example-image">
+          Mantenimiento
+        </button>
+
+        <div *ngIf="botonMantExpandido" [@expandirAnimacion]>
+          <button mat-button routerLink="/medico">
+            <img src="assets/images/medico.png" class="example-image">
+            Médico</button>
+          <button mat-button routerLink="/paciente">
+            <img src="assets/images/paciente.png" class="example-image">
+            Paciente</button>
+          <button mat-button routerLink="/usuario">
+            <img src="assets/images/recepcionista.png" class="example-image">
+            Usuario</button>
+          <button mat-button routerLink="/aseguradora">
+            <img src="assets/images/aseguradora.png" class="example-image">
+            Aseguradoras</button>
+          <button mat-button routerLink="/especialidad">
+            <img src="assets/images/especialidades.png" class="example-image">
+            Especialidades</button>
+          <button mat-button routerLink="/rol">
+            <img src="assets/images/roles.png" class="example-image">
+            Rol</button>
+        </div>
+
+
+        <button mat-button class="example-button" (click)="toggleBotonProceso()">
+          <img src="assets/images/proce.png" class="example-image">
+          Proceso</button>
+
+        <div *ngIf="botonProcesoExpandido" [@expandirAnimacion]>
+          <button mat-button routerLink="/cita">
+            <img src="assets/images/cita.png" class="example-image">
+            Cita</button>
+          <button mat-button routerLink="/caja">
+            <img src="assets/images/caja.png" class="example-image">
+            Caja</button>
+        </div>
+
+      </div>
+    </mat-sidenav>
+    <mat-sidenav-content>
+      <div class="app fondo-opcion">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>
+

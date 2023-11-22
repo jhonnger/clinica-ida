@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+.full-with{
+  width: 100%;
+}
+
+.titulo{
+  color: #414141;
+  font-size: 27px !important;
+  text-transform: uppercase;
+  font-weight: bold !important;
+}
+.fondo{
+  background-color: #a8a6a6;
+}
+
+.primary-bg{
+  background-color: #3bacb9 !important;
+  color: #FFFFFF !important;
+}
+
+.action-button{
+  color: #3bacb9 !important;
+}
+
+.fondo-opcion{
+  background-color: #f5f5f5 !important;
+}
+
+.fondo-opcion table{
+  background-color: #f5f5f5 !important;
+}

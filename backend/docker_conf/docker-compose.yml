@@ -1,0 +1,14 @@
+version: "3"
+services:
+  mysql_db:
+    image: mysql
+    ports:
+      - "3306:3306"
+    volumes:
+      - ~/.docker/idat/sistemaclinicodb/mysql:/var/lib/mysql
+
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+      MYSQL_USER: sistemaclinico
+      MYSQL_PASSWORD: 123456
+      MYSQL_DATABASE: sistemaclinico

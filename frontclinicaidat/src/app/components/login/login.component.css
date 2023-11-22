@@ -1,0 +1,31 @@
+.container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: 100vh;
+  background-image: url(../../../assets/login-transformed.jpeg);
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  padding-right: 40px;
+}
+
+.form {
+  max-width: 400px;
+  width: 100%;
+  display: block;
+  padding: 75px 45px;
+  background-color: #FFFFFF;
+  border-radius: 32px;
+}
+.titulo{
+  color: #368e9d;
+}
+
+.btn-login{
+  background-color: #3bacb9 !important;
+}
+
+.flex{
+  flex: 1;
+}
