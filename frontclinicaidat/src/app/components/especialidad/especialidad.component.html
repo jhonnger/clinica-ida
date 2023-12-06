@@ -1,9 +1,9 @@
 <div class="container">
-  <form [formGroup]="formulario" class="form">
+  <form [formGroup]="formulario" class="form" #formDirective="ngForm">
     <h1 style="text-align: center" class="titulo">Registrar Especialidad</h1>
     <div class="fila" style="display: flex; justify-content: space-between">
 
-      <mat-form-field >
+      <mat-form-field  class="flex">
         <mat-label>Nombre</mat-label>
         <input matInput formControlName="nombre">
         <mat-error *ngIf="formulario.get('nombre')?.hasError('required')">
@@ -14,15 +14,19 @@
     </div>
     <br>
 
-    <button mat-raised-button color="basic" (click)="enviarGuardar()">
-      <img src="assets/images/guardar.png" class="example-image">
-    </button>
-    <button mat-raised-button color="basic" [hidden]="idSeleccionado <= 0" (click)="eliminar()">
-      <img src="assets/images/eliminar.png" class="example-image">
-    </button>
-    <button mat-raised-button color="basic" (click)="cancelar()">
-      <img src="assets/images/cancelar.png" class="example-image">
-    </button>
+
+    <div class="fila" style="display: flex; ">
+      <button style="flex: 0.25" mat-raised-button color="basic" class="primary-bg flex" (click)="enviarGuardar()" [hidden]="!(idSeleccionado <= 0)">
+        Guardar
+      </button>
+      <button style="flex: 0.25" mat-raised-button class="primary-bg flex" color="basic" [hidden]="idSeleccionado <= 0" (click)="enviarGuardar()">
+        Modificar
+      </button>
+      <button style="flex: 0.25" class=" flex" mat-raised-button type="button" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+    <br><br>
 
     <div>
       <table mat-table [dataSource]="especialidad" class="mat-elevation-z8">

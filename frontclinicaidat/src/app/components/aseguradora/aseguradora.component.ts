@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {EspecialidadService} from "../../services/especialidad.service";
 import {catchError, tap, throwError} from "rxjs";
 import {AseguradoraService} from "../../services/aseguradora.service";
@@ -13,7 +13,8 @@ import {CrudBase} from "../CrudBase";
 export class AseguradoraComponent extends CrudBase{
 
   aseguradora:any[] = [];
-
+  @ViewChild('formDirective')
+  override formDirective!: FormGroupDirective;
   displayedColumns: string[] = ['id', 'nombre'];
 
   constructor(

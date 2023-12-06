@@ -1,25 +1,27 @@
-import { Component } from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {RolService} from "../../services/rol.service";
 import {EspecialidadService} from "../../services/especialidad.service";
 import {catchError, tap, throwError} from "rxjs";
+import {CrudBase} from "../CrudBase";
 
 @Component({
   selector: 'app-especialidad',
   templateUrl: './especialidad.component.html',
   styleUrls: ['./especialidad.component.css']
 })
-export class EspecialidadComponent {
+export class EspecialidadComponent extends CrudBase{
 
-  formulario: FormGroup;
-  idSeleccionado: number = -1;
+  @ViewChild('formDirective')
+  override formDirective!: FormGroupDirective;
   especialidad:any[] = [];
 
   displayedColumns: string[] = ['id', 'nombre'];
 
   constructor(
-    private fb:FormBuilder,
+    public override fb:FormBuilder,
     private especialidadService: EspecialidadService) {
+    super(fb)
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
     });
@@ -56,18 +58,20 @@ export class EspecialidadComponent {
   }
 
   guardar(especialidad: any) {
-    this.listarEspecialidad();
-    this.especialidadService.guardarEspecialidad({
-      ...especialidad
-    }).pipe(
-      tap( (data) => {
-        console.log(data);
-        this.listarEspecialidad();
-      }),
-      catchError( err => {
-        return throwError(err);
-      })
-    ).subscribe();
+    if (this.formulario.valid){
+      this.especialidadService.guardarEspecialidad({
+        ...especialidad
+      }).pipe(
+        tap( (data) => {
+          console.log(data);
+          this.listarEspecialidad();
+        }),
+        catchError( err => {
+          return throwError(err);
+        })
+      ).subscribe();
+    }
+
   }
 
   actualizar(idEspecialidad: number, especialidad: any){
@@ -97,13 +101,6 @@ export class EspecialidadComponent {
     ).subscribe();
   }
 
-  cancelar() {
-    this.idSeleccionado = -1;
-    this.resetForm();
-  }
 
-  resetForm() {
-    this.formulario.reset();
-  }
 
 }

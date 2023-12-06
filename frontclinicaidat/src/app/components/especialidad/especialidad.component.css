@@ -4,8 +4,8 @@
 .container {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  height: calc(100vh - 104px);
+  padding: 20px;
 }
 .fila mat-form-field{
   margin: 5px;
@@ -17,3 +17,15 @@
   margin-right: 10px;
 }
 
+.form{
+  width: 100%;
+
+}
+.columna{
+  display: flex;
+  flex-direction: column;
+}
+
+.fila{
+  width: 100%;
+}
