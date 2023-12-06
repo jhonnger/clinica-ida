@@ -1,25 +1,26 @@
-import {Component, OnInit} from '@angular/core';
-import {FormBuilder, FormGroup, Validators} from "@angular/forms";
+import {Component, OnInit, ViewChild} from '@angular/core';
+import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/forms";
 import {PacienteService} from "../../services/paciente.service";
 import {catchError, tap, throwError} from "rxjs";
+import {CrudBase} from "../CrudBase";
 
 @Component({
   selector: 'app-paciente',
   templateUrl: './paciente.component.html',
   styleUrls: ['./paciente.component.css']
 })
-export class PacienteComponent implements OnInit{
+export class PacienteComponent extends CrudBase implements OnInit{
 
-  formulario: FormGroup;
-  idSeleccionado: number = -1;
   paciente:any[] = [];
   sexo: any[] = ["F", "M"];
-
+  @ViewChild('formDirective')
+  override formDirective!: FormGroupDirective;
   displayedColumns: string[] = ['id', 'nombre', 'apellido','sexo','celular' , 'dni',];
 
   constructor(
-    private fb:FormBuilder,
+    public override fb:FormBuilder,
     private pacienteService: PacienteService) {
+    super(fb)
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
       apellido: ['', Validators.required],
@@ -67,18 +68,20 @@ export class PacienteComponent implements OnInit{
   }
 
   guardar(paciente: any) {
-    this.listarPacientes();
-    this.pacienteService.guardarPaciente({
-      ...paciente
-    }).pipe(
-      tap( (data) => {
-        console.log(data);
-        this.listarPacientes();
-      }),
-      catchError( err => {
-        return throwError(err);
-      })
-    ).subscribe();
+    if (this.formulario.valid){
+      this.pacienteService.guardarPaciente({
+        ...paciente
+      }).pipe(
+        tap( (data) => {
+          console.log(data);
+          this.listarPacientes();
+        }),
+        catchError( err => {
+          return throwError(err);
+        })
+      ).subscribe();
+    }
+
   }
 
   actualizar(idPaciente: number, paciente: any){
@@ -108,13 +111,6 @@ export class PacienteComponent implements OnInit{
     ).subscribe();
   }
 
-  cancelar() {
-    this.idSeleccionado = -1;
-    this.resetForm();
-  }
 
-  resetForm() {
-    this.formulario.reset();
-  }
 
 }

@@ -3,23 +3,23 @@ import {FormBuilder, FormGroup, Validators} from "@angular/forms";
 import {EspecialidadService} from "../../services/especialidad.service";
 import {catchError, tap, throwError} from "rxjs";
 import {AseguradoraService} from "../../services/aseguradora.service";
+import {CrudBase} from "../CrudBase";
 
 @Component({
   selector: 'app-aseguradora',
   templateUrl: './aseguradora.component.html',
   styleUrls: ['./aseguradora.component.css']
 })
-export class AseguradoraComponent {
+export class AseguradoraComponent extends CrudBase{
 
-  formulario: FormGroup;
-  idSeleccionado: number = -1;
   aseguradora:any[] = [];
 
   displayedColumns: string[] = ['id', 'nombre'];
 
   constructor(
-    private fb:FormBuilder,
+    public override fb:FormBuilder,
     private aseguradoraService: AseguradoraService) {
+    super(fb)
     this.formulario = this.fb.group({
       nombre: ['', Validators.required],
     });
@@ -56,18 +56,20 @@ export class AseguradoraComponent {
   }
 
   guardar(aseguradora: any) {
-    this.listarAseguradora();
-    this.aseguradoraService.guardarAseguradora({
-      ...aseguradora
-    }).pipe(
-      tap( (data) => {
-        console.log(data);
-        this.listarAseguradora();
-      }),
-      catchError( err => {
-        return throwError(err);
-      })
-    ).subscribe();
+    if (this.formulario.valid){
+      this.aseguradoraService.guardarAseguradora({
+        ...aseguradora
+      }).pipe(
+        tap( (data) => {
+          console.log(data);
+          this.listarAseguradora();
+        }),
+        catchError( err => {
+          return throwError(err);
+        })
+      ).subscribe();
+    }
+
   }
 
   actualizar(idAseguradora: number, aseguradora: any){
@@ -95,15 +97,6 @@ export class AseguradoraComponent {
         return throwError(err);
       })
     ).subscribe();
-  }
-
-  cancelar() {
-    this.idSeleccionado = -1;
-    this.resetForm();
-  }
-
-  resetForm() {
-    this.formulario.reset();
   }
 
 }

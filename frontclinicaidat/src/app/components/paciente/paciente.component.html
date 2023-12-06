@@ -1,50 +1,54 @@
 <div class="container">
-  <form [formGroup]="formulario" class="form">
+  <form [formGroup]="formulario" class="form" #formDirective="ngForm">
     <h1 style="text-align: center" class="titulo">Registrar Paciente</h1>
     <div class="fila" style="display: flex; justify-content: space-between">
 
-      <mat-form-field >
+      <mat-form-field class="flex">
         <mat-label>Nombre</mat-label>
         <input matInput formControlName="nombre">
         <mat-error *ngIf="formulario.get('nombre')?.hasError('required')">
           <a> El nombre es obligatorio</a>
         </mat-error>
       </mat-form-field>
-      <mat-form-field >
+      <mat-form-field class="flex">
         <mat-label>Apellidos</mat-label>
         <input matInput formControlName="apellido">
       </mat-form-field>
-      <mat-form-field >
+      <mat-form-field class="flex">
         <mat-label>Direccion</mat-label>
         <input matInput formControlName="direccion">
+      </mat-form-field>
+      <mat-form-field class="flex">
+        <mat-label>Fecha de Nacimiento</mat-label>
+        <input matInput formControlName="fechanacimiento">
       </mat-form-field>
     </div>
 
     <div class="fila" style="display: flex; justify-content: space-between">
 
-      <mat-form-field >
-        <mat-label>Fecha de Nacimiento</mat-label>
-        <input matInput formControlName="fechanacimiento">
-      </mat-form-field>
-      <mat-form-field >
+
+      <mat-form-field class="flex">
         <mat-label>Dni</mat-label>
         <input matInput formControlName="dni">
       </mat-form-field>
-      <mat-form-field appearance="fill">
+      <mat-form-field appearance="fill" class="flex">
         <mat-label>Sexo</mat-label>
         <mat-select formControlName="sexo"  required>
           <mat-option *ngFor="let item of sexo" [value]="item">{{item}}</mat-option>
         </mat-select>
       </mat-form-field>
 
-
-    </div>
-    <div class="fila" style="display: flex; justify-content: space-between">
-
-      <mat-form-field >
+      <mat-form-field class="flex">
         <mat-label>Celular</mat-label>
         <input matInput formControlName="celular">
       </mat-form-field>
+      <div class="flex">
+
+      </div>
+    </div>
+    <div class="fila" style="display: flex; justify-content: space-between">
+
+
 
     </div>
 
@@ -52,15 +56,18 @@
 
     <br>
 
-    <button mat-raised-button color="basic" (click)="enviarGuardar()">
-      <img src="assets/images/guardar.png" class="example-image">
-    </button>
-    <button mat-raised-button color="basic" [hidden]="idSeleccionado <= 0" (click)="eliminar()">
-      <img src="assets/images/eliminar.png" class="example-image">
-    </button>
-    <button mat-raised-button color="basic" (click)="cancelar()">
-      <img src="assets/images/cancelar.png" class="example-image">
-    </button>
+    <div class="fila" style="display: flex; ">
+      <button style="flex: 0.25" mat-raised-button color="basic" class="primary-bg flex" (click)="enviarGuardar()" [hidden]="!(idSeleccionado <= 0)">
+        Guardar
+      </button>
+      <button style="flex: 0.25" mat-raised-button class="primary-bg flex" color="basic" [hidden]="idSeleccionado <= 0" (click)="enviarGuardar()">
+        Modificar
+      </button>
+      <button style="flex: 0.25" class=" flex" mat-raised-button type="button" (click)="cancelar()">
+        Cancelar
+      </button>
+    </div>
+    <br><br>
 
     <div>
       <table mat-table [dataSource]="paciente" class="mat-elevation-z8">
