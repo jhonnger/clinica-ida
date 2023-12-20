@@ -118,19 +118,21 @@ export class MedicoComponent implements OnInit{
   }
 
   actualizar(idMedico: number, medico: any){
-    medico.id = idMedico;
-    this.medicoService.actualizarMedico({
-      ...medico
-    }).pipe(
-      tap( (data) => {
-        console.log(data);
-        this.listarMedicos();
-        this.cancelar();
-      }),
-      catchError( err => {
-        return throwError(err);
-      })
-    ).subscribe();
+    if (this.formulario.valid){
+      medico.id = idMedico;
+      this.medicoService.actualizarMedico({
+        ...medico
+      }).pipe(
+        tap( (data) => {
+          this.listarMedicos();
+          this.cancelar();
+        }),
+        catchError( err => {
+          return throwError(err);
+        })
+      ).subscribe();
+    }
+
   }
 
   eliminar(id: any) {

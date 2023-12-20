@@ -1,3 +1,26 @@
+.contenedor-dias {
+  display: inline-table;
+}
+
+.contenedor-dias>.dia {
+  display: inline-block;
+  width: 14%;
+  text-align: center;
+  cursor: pointer;
+}
+
+.diacalend {
+  padding-top: 5px;
+  display: block;
+  height: 30px;
+  width: 30px;
+  border-radius: 50%;
+}
+
+.seleccionado {
+  background-color: #76ddff;
+}
+
 .flex{
   flex: auto;
 }

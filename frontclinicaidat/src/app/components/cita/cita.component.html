@@ -2,14 +2,15 @@
   <form [formGroup]="formulario" class="form">
     <h1 style="text-align: center" class="titulo">Registrar Cita</h1>
     <div class="fila" style="display: flex; justify-content: space-between">
-      <mat-form-field appearance="fill" >
-        <mat-label>PACIENTE</mat-label>
-        <mat-select formControlName="paciente" required>
-          <mat-option *ngFor="let item of pacientes" [value]="item.id">{{item.nombre + ' ' + item.apellido}}</mat-option>
-        </mat-select>
+      <mat-form-field class="example-form-field flex" >
+        <mat-label>Paciente</mat-label>
+        <input matInput type="text" formControlName="paciente"  [readonly]="true"  >
+        <button matSuffix mat-icon-button (click)="abrirModalPacientes()">
+          <mat-icon>search</mat-icon>
+        </button>
       </mat-form-field>
 
-      <mat-form-field appearance="fill"  >
+      <mat-form-field appearance="fill"  class="flex" >
         <mat-label>MEDICO</mat-label>
         <mat-select formControlName="medico" required>
           <mat-option *ngFor="let item of medicos" [value]="item.id">{{item.nombre + ' ' + item.apellido}}</mat-option>
@@ -19,36 +20,42 @@
 
       <div class="fila" style="display: flex; justify-content: space-between">
 
-        <mat-form-field >
+        <mat-form-field class="flex">
           <mat-label>Fecha </mat-label>
-          <input matInput formControlName="fecha">
+          <input matInput [matDatepicker]="picker" formControlName="fecha"  placeholder="Selecciona una fecha" (ngModelChange)="cambioFecha()">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
 
-        <mat-form-field >
-          <mat-label>Hora </mat-label>
-          <input matInput formControlName="hora">
+        <mat-form-field appearance="fill"  class="flex" >
+          <mat-label>Turno</mat-label>
+          <mat-select formControlName="hora" required>
+            <mat-option *ngFor="let item of turnos" [value]="item.fecha">{{item.turno}}</mat-option>
+          </mat-select>
         </mat-form-field>
 
-        <mat-form-field >
+        <mat-form-field class="flex">
           <mat-label>Numero Poliza </mat-label>
           <input matInput formControlName="numeropoliza">
+        </mat-form-field>
+        <mat-form-field appearance="fill" >
+          <mat-label>Aseguradora</mat-label>
+          <mat-select formControlName="aseguradora" required>
+            <mat-option *ngFor="let item of aseguradoras" [value]="item.id">{{item.nombre}}</mat-option>
+          </mat-select>
         </mat-form-field>
     </div>
 
     <div class="fila" style="display: flex; justify-content: space-between">
 
-      <mat-form-field appearance="fill" >
-        <mat-label>Aseguradora</mat-label>
-        <mat-select formControlName="aseguradora" required>
-          <mat-option *ngFor="let item of aseguradoras" [value]="item.id">{{item.nombre}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+
       <mat-form-field appearance="fill" >
         <mat-label>Usuario</mat-label>
         <mat-select formControlName="usuario" required>
           <mat-option *ngFor="let item of usuarios" [value]="item.id">{{item.nombre + ' ' + item.apellido}}</mat-option>
         </mat-select>
       </mat-form-field>
+
     </div>
     <br>
 
@@ -63,7 +70,7 @@
     </button>
 
     <div>
-      <table mat-table [dataSource]="cita" class="mat-elevation-z8">
+      <table mat-table [dataSource]="citas" class="mat-elevation-z8">
 
         <ng-container matColumnDef="id">
           <th mat-header-cell *matHeaderCellDef> No. </th>

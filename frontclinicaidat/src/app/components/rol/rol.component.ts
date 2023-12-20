@@ -4,6 +4,8 @@ import {PacienteService} from "../../services/paciente.service";
 import {RolService} from "../../services/rol.service";
 import {catchError, tap, throwError} from "rxjs";
 import {CrudBase} from "../CrudBase";
+import {ModalConfirmComponent} from "../modal-confirm/modal-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-rol',
@@ -15,10 +17,11 @@ export class RolComponent extends CrudBase{
   rol:any[] = [];
   @ViewChild('formDirective')
   override formDirective!: FormGroupDirective;
-  displayedColumns: string[] = ['id', 'descripcion'];
+  displayedColumns: string[] = ['id', 'descripcion','action'];
 
   constructor(
     public override fb:FormBuilder,
+    public dialog: MatDialog,
     private rolService: RolService) {
     super(fb)
     this.formulario = this.fb.group({
@@ -60,7 +63,7 @@ export class RolComponent extends CrudBase{
         ...rol
       }).pipe(
         tap( (data) => {
-          console.log(data);
+          this.cancelar();
           this.listarRoles();
         }),
         catchError( err => {
@@ -77,7 +80,7 @@ export class RolComponent extends CrudBase{
       ...rol
     }).pipe(
       tap( (data) => {
-        console.log(data);
+        this.cancelar();
         this.listarRoles();
       }),
       catchError( err => {
@@ -86,10 +89,20 @@ export class RolComponent extends CrudBase{
     ).subscribe();
   }
 
-  eliminar() {
-    this.rolService.eliminarRol(this.idSeleccionado).pipe(
+  mostrarConfirmarEliminar(item: any){
+    this.dialog.open(ModalConfirmComponent,{data: {
+        mensaje: ' el rol '+ item.nombre
+      }})
+      .afterClosed()
+      .subscribe(data => {
+        if(data){
+          this.eliminar(item.id)
+        }
+      })
+  }
+  eliminar(id: any) {
+    this.rolService.eliminarRol(id).pipe(
       tap((data) => {
-        console.log(data);
         this.listarRoles();
       }),
       catchError(err => {

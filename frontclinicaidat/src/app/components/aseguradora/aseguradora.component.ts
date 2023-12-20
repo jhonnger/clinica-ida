@@ -4,6 +4,8 @@ import {EspecialidadService} from "../../services/especialidad.service";
 import {catchError, tap, throwError} from "rxjs";
 import {AseguradoraService} from "../../services/aseguradora.service";
 import {CrudBase} from "../CrudBase";
+import {ModalConfirmComponent} from "../modal-confirm/modal-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-aseguradora',
@@ -15,10 +17,11 @@ export class AseguradoraComponent extends CrudBase{
   aseguradora:any[] = [];
   @ViewChild('formDirective')
   override formDirective!: FormGroupDirective;
-  displayedColumns: string[] = ['id', 'nombre'];
+  displayedColumns: string[] = ['id', 'nombre','action'];
 
   constructor(
     public override fb:FormBuilder,
+    public dialog: MatDialog,
     private aseguradoraService: AseguradoraService) {
     super(fb)
     this.formulario = this.fb.group({
@@ -62,7 +65,7 @@ export class AseguradoraComponent extends CrudBase{
         ...aseguradora
       }).pipe(
         tap( (data) => {
-          console.log(data);
+          this.cancelar();
           this.listarAseguradora();
         }),
         catchError( err => {
@@ -79,7 +82,7 @@ export class AseguradoraComponent extends CrudBase{
       ...aseguradora
     }).pipe(
       tap( (data) => {
-        console.log(data);
+        this.cancelar();
         this.listarAseguradora();
       }),
       catchError( err => {
@@ -88,16 +91,27 @@ export class AseguradoraComponent extends CrudBase{
     ).subscribe();
   }
 
-  eliminar() {
-    this.aseguradoraService.eliminarAseguradora(this.idSeleccionado).pipe(
+  eliminar(id: any) {
+    this.aseguradoraService.eliminarAseguradora(id).pipe(
       tap((data) => {
-        console.log(data);
         this.listarAseguradora();
       }),
       catchError(err => {
         return throwError(err);
       })
     ).subscribe();
+  }
+
+  mostrarConfirmarEliminar(item: any){
+    this.dialog.open(ModalConfirmComponent,{data: {
+        mensaje: ' la aseguradora '+ item.nombre + ' ' + item.apellido
+      }})
+      .afterClosed()
+      .subscribe(data => {
+        if(data){
+          this.eliminar(item.id)
+        }
+      })
   }
 
 }

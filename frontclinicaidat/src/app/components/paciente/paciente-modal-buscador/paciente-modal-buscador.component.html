@@ -1,0 +1,75 @@
+<div class="container">
+  <div class="close-btn" (click)="cerrar()">X</div>
+  <div  class="form" >
+    <h1 style="text-align: center" class="titulo">Buscar Paciente</h1>
+    <div class="fila" style="display: flex; justify-content: space-between">
+
+      <mat-form-field class="flex">
+        <mat-label>Nombre o DNI</mat-label>
+        <input matInput  [(ngModel)]="filtro" (keyup.enter)="filtrar()">
+      </mat-form-field>
+
+      <button mat-fab (click)="filtrar()" class="primary-bg">
+        <mat-icon>search</mat-icon>
+      </button>
+    </div>
+    <br>
+    <br>
+
+    <div>
+      <table mat-table [dataSource]="pacientes" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef> No. </th>
+          <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="nombre">
+          <th mat-header-cell *matHeaderCellDef> Nombre </th>
+          <td mat-cell *matCellDef="let element"> {{element.nombre}} </td>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="apellido">
+          <th mat-header-cell *matHeaderCellDef> Apellidos </th>
+          <td mat-cell *matCellDef="let element"> {{element.apellido}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="sexo">
+          <th mat-header-cell *matHeaderCellDef> Sexo </th>
+          <td mat-cell *matCellDef="let element"> {{element.sexo}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="celular">
+          <th mat-header-cell *matHeaderCellDef> Celular </th>
+          <td mat-cell *matCellDef="let element"> {{element.celular}} </td>
+        </ng-container>
+
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="dni">
+          <th mat-header-cell *matHeaderCellDef> Dni </th>
+          <td mat-cell *matCellDef="let element"> {{element.dni}} </td>
+        </ng-container>
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Seleccionar </th>
+          <td mat-cell *matCellDef="let element">
+
+            <button type="button" (click)="seleccionar(element)" mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+                    class="action-button">
+              <mat-icon>check_circle</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;" ></tr>
+      </table>
+    </div>
+
+  </div>
+
+</div>

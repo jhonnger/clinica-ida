@@ -4,6 +4,8 @@ import {RolService} from "../../services/rol.service";
 import {EspecialidadService} from "../../services/especialidad.service";
 import {catchError, tap, throwError} from "rxjs";
 import {CrudBase} from "../CrudBase";
+import {MatDialog} from "@angular/material/dialog";
+import {ModalConfirmComponent} from "../modal-confirm/modal-confirm.component";
 
 @Component({
   selector: 'app-especialidad',
@@ -16,10 +18,11 @@ export class EspecialidadComponent extends CrudBase{
   override formDirective!: FormGroupDirective;
   especialidad:any[] = [];
 
-  displayedColumns: string[] = ['id', 'nombre'];
+  displayedColumns: string[] = ['id', 'nombre','action'];
 
   constructor(
     public override fb:FormBuilder,
+    public dialog: MatDialog,
     private especialidadService: EspecialidadService) {
     super(fb)
     this.formulario = this.fb.group({
@@ -33,14 +36,11 @@ export class EspecialidadComponent extends CrudBase{
   listarEspecialidad(){
     this.especialidadService.listarEspecialidades().subscribe((data: any) => {
       this.especialidad = data;
-      console.log(data)
     })
   }
 
   cargarDatos(element: any){
     this.idSeleccionado = element.id;
-    console.log(this.idSeleccionado);
-    console.log(element);
     this.formulario.setValue({
       nombre: element.nombre,
     })
@@ -63,7 +63,7 @@ export class EspecialidadComponent extends CrudBase{
         ...especialidad
       }).pipe(
         tap( (data) => {
-          console.log(data);
+          this.cancelar();
           this.listarEspecialidad();
         }),
         catchError( err => {
@@ -80,7 +80,7 @@ export class EspecialidadComponent extends CrudBase{
       ...especialidad
     }).pipe(
       tap( (data) => {
-        console.log(data);
+        this.cancelar();
         this.listarEspecialidad();
       }),
       catchError( err => {
@@ -89,10 +89,21 @@ export class EspecialidadComponent extends CrudBase{
     ).subscribe();
   }
 
-  eliminar() {
-    this.especialidadService.eliminarEspecialidad(this.idSeleccionado).pipe(
+  mostrarConfirmarEliminar(item: any){
+    this.dialog.open(ModalConfirmComponent,{data: {
+        mensaje: ' la especialidad '+ item.nombre + ' ' + item.apellido
+      }})
+      .afterClosed()
+      .subscribe(data => {
+        if(data){
+          this.eliminar(item.id)
+        }
+      })
+  }
+
+  eliminar(id: any) {
+    this.especialidadService.eliminarEspecialidad(id).pipe(
       tap((data) => {
-        console.log(data);
         this.listarEspecialidad();
       }),
       catchError(err => {

@@ -6,7 +6,13 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 .full-with{
   width: 100%;
 }
-
+.close-btn{
+  font-size: 20px;
+  cursor: pointer;
+  position: absolute;
+  right: 20px;
+  top: 20px;
+}
 .titulo{
   color: #414141;
   font-size: 27px !important;

@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { LoginComponent } from './components/login/login.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import {MatInputModule} from "@angular/material/input";
-import {ReactiveFormsModule} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {HttpClientModule} from "@angular/common/http";
 import {MatSelectModule} from "@angular/material/select";
@@ -27,6 +27,12 @@ import { InicioComponent } from './components/inicio/inicio.component';
 import {MatIconModule} from "@angular/material/icon";
 import { ModalConfirmComponent } from './components/modal-confirm/modal-confirm.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import {
+  PacienteModalBuscadorComponent
+} from "./components/paciente/paciente-modal-buscador/paciente-modal-buscador.component";
+import { ProgramacionHorariosComponent } from './components/programacion-horarios/programacion-horarios.component';
+import {MatDatepickerModule} from "@angular/material/datepicker";
+import {MatNativeDateModule} from "@angular/material/core";
 
 
 
@@ -45,24 +51,30 @@ import {MatDialogModule} from "@angular/material/dialog";
     AseguradoraComponent,
     InicioComponent,
     ModalConfirmComponent,
+    PacienteModalBuscadorComponent,
+    ProgramacionHorariosComponent
   ],
-  imports: [
-    BrowserModule,
-    AppRoutingModule,
-    BrowserAnimationsModule,
-    MatInputModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    HttpClientModule,
-    MatSelectModule,
-    MatTableModule,
-    MatSidenavModule,
-    MatListModule,
-    MatToolbarModule,
-    MatMenuModule,
-    MatIconModule,
-    MatDialogModule,
-  ],
+    imports: [
+        BrowserModule,
+        AppRoutingModule,
+        BrowserAnimationsModule,
+        MatInputModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        HttpClientModule,
+        MatSelectModule,
+        MatTableModule,
+        MatSidenavModule,
+        MatListModule,
+        MatToolbarModule,
+        MatMenuModule,
+        MatIconModule,
+        MatDialogModule,
+        FormsModule,
+        MatDatepickerModule,
+      MatNativeDateModule
+    ],
+  exports: [PacienteModalBuscadorComponent],
   providers: [],
   bootstrap: [AppComponent]
 })

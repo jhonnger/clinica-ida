@@ -14,6 +14,11 @@ export class PacienteService {
     return this.http.get(this.apiUrl + '/paciente/listar',  { headers });
   }
 
+  filtrar(filtro: any) {
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
+    return this.http.post(this.apiUrl + '/paciente/filtrar', {filtro},  { headers });
+  }
+
   guardarPaciente(paciente:any){
     const headers = new HttpHeaders().set('Content-Type', 'application/json');
     return this.http.post(this.apiUrl + '/paciente/guardar', paciente,  { headers })

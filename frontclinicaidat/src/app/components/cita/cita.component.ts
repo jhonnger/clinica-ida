@@ -6,6 +6,10 @@ import {UsuarioService} from "../../services/usuario.service";
 import {AseguradoraService} from "../../services/aseguradora.service";
 import {CitaService} from "../../services/cita.service";
 import {catchError, tap, throwError} from "rxjs";
+import {ModalConfirmComponent} from "../modal-confirm/modal-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
+import {PacienteModalBuscadorComponent} from "../paciente/paciente-modal-buscador/paciente-modal-buscador.component";
+import {ProgramacionService} from "../../services/programacion.service";
 
 @Component({
   selector: 'app-cita',
@@ -16,8 +20,13 @@ export class CitaComponent implements OnInit{
 
   formulario:FormGroup;
   idSeleccionado: number = -1;
+  fecha: any = new Date();
   medicos: any[] = [];
-  cita: any[] = [];
+  cita: any = {
+    paciente: {}
+  };
+  turnos: any[] = [];
+  citas: any[] = [];
   pacientes: any[] = [];
   aseguradoras: any[] = [];
   usuarios: any[] = [];
@@ -27,8 +36,10 @@ export class CitaComponent implements OnInit{
   constructor(
     private fb:FormBuilder,
     private medicoService: MedicoService,
+    public dialog: MatDialog,
     private pacienteService: PacienteService,
     private aseguradoraService: AseguradoraService,
+    private programacionService: ProgramacionService,
     private usuarioService: UsuarioService,
     private citaService: CitaService) {
     this.listarAseguradoras()
@@ -51,9 +62,39 @@ export class CitaComponent implements OnInit{
     this.listarCitas();
   }
 
+  cambioFecha(){
+
+    console.log(this.fecha)
+    console.log(this.formulario.value.fecha)
+    this.programacionService.listarTurnos({
+      fecha: this.formulario.value.fecha,
+      medicoId: this.formulario.value.medico
+    })
+      .subscribe(data => {
+        console.log(data)
+        this.turnos = data.extraInfo;
+      })
+  }
+  abrirModalPacientes(){
+    this.dialog.open(PacienteModalBuscadorComponent,{data: {
+
+      }})
+      .afterClosed()
+      .subscribe(data => {
+        this.formulario.setValue({
+          ...this.formulario.value,
+          paciente:  data.nombre + ' ' +data.apellido
+        })
+        this.cita.paciente = {
+          id: data.id,
+          nombre: data.nombre + ' ' +data.apellido
+        }
+        console.log(data)
+      })
+  }
   listarCitas(){
     this.citaService.listarCita().subscribe((data: any) => {
-      this.cita = data;
+      this.citas = data;
       console.log(data)
     })
   }

@@ -3,6 +3,8 @@ import {FormBuilder, FormGroup, FormGroupDirective, Validators} from "@angular/f
 import {PacienteService} from "../../services/paciente.service";
 import {catchError, tap, throwError} from "rxjs";
 import {CrudBase} from "../CrudBase";
+import {ModalConfirmComponent} from "../modal-confirm/modal-confirm.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Component({
   selector: 'app-paciente',
@@ -15,10 +17,11 @@ export class PacienteComponent extends CrudBase implements OnInit{
   sexo: any[] = ["F", "M"];
   @ViewChild('formDirective')
   override formDirective!: FormGroupDirective;
-  displayedColumns: string[] = ['id', 'nombre', 'apellido','sexo','celular' , 'dni',];
+  displayedColumns: string[] = ['id', 'nombre', 'apellido','sexo','celular' , 'dni','action'];
 
   constructor(
     public override fb:FormBuilder,
+    public dialog: MatDialog,
     private pacienteService: PacienteService) {
     super(fb)
     this.formulario = this.fb.group({
@@ -38,7 +41,6 @@ export class PacienteComponent extends CrudBase implements OnInit{
   listarPacientes(){
     this.pacienteService.listarPaciente().subscribe((data: any) => {
       this.paciente = data;
-      console.log(data)
     })
   }
   cargarDatos(element: any){
@@ -54,6 +56,18 @@ export class PacienteComponent extends CrudBase implements OnInit{
       celular: element.celular,
       dni: element.dni,
     })
+  }
+
+  mostrarConfirmarEliminar(item: any){
+    this.dialog.open(ModalConfirmComponent,{data: {
+        mensaje: ' al paciente '+ item.nombre + ' ' + item.apellido
+      }})
+      .afterClosed()
+      .subscribe(data => {
+        if(data){
+          this.eliminar(item.id)
+        }
+      })
   }
 
   enviarGuardar(){
@@ -73,8 +87,27 @@ export class PacienteComponent extends CrudBase implements OnInit{
         ...paciente
       }).pipe(
         tap( (data) => {
-          console.log(data);
           this.listarPacientes();
+        }),
+        catchError( err => {
+          return throwError(err);
+        })
+      ).subscribe();
+
+      this.cancelar()
+    }
+
+  }
+
+  actualizar(idPaciente: number, paciente: any){
+    if (this.formulario.valid){
+      paciente.id = idPaciente;
+      this.pacienteService.actualizarPaciente({
+        ...paciente
+      }).pipe(
+        tap( (data) => {
+          this.listarPacientes();
+          this.cancelar()
         }),
         catchError( err => {
           return throwError(err);
@@ -82,30 +115,15 @@ export class PacienteComponent extends CrudBase implements OnInit{
       ).subscribe();
     }
 
+
   }
 
-  actualizar(idPaciente: number, paciente: any){
-    paciente.id = idPaciente;
-    this.pacienteService.actualizarPaciente({
-      ...paciente
-    }).pipe(
+  eliminar(id: any) {
+    this.pacienteService.eliminarPaciente(id).pipe(
       tap( (data) => {
-        console.log(data);
         this.listarPacientes();
       }),
       catchError( err => {
-        return throwError(err);
-      })
-    ).subscribe();
-  }
-
-  eliminar() {
-    this.pacienteService.eliminarPaciente(this.idSeleccionado).pipe(
-      tap((data) => {
-        console.log(data);
-        this.listarPacientes();
-      }),
-      catchError(err => {
         return throwError(err);
       })
     ).subscribe();

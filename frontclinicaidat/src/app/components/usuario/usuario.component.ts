@@ -118,6 +118,9 @@ export class UsuarioComponent implements OnInit{
   }
 
   actualizar(idUsuario: number, usuario: any){
+    if (!this.formulario.valid){
+      return
+    }
     usuario.id = idUsuario;
     this.usuarioService.actualizarUsuario({...usuario})
       .pipe(

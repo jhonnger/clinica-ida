@@ -1,0 +1,132 @@
+<div class="container">
+  <div  class="form">
+    <h1 style="text-align: center" class="titulo">Programación de Horarios</h1>
+
+    <div class="fila" style="display: flex;">
+      <div style="width: 49%">
+        <div class="fila" style="display: flex; justify-content: space-between">
+
+
+          <mat-form-field appearance="fill"  class="flex" >
+            <mat-label>MEDICO</mat-label>
+            <mat-select  [(ngModel)]="citaFormulario.medicoId" (ngModelChange)="buscar()">
+              <mat-option *ngFor="let item of medicos" [value]="item.id">{{item.nombre + ' ' + item.apellido}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <div class="fila" style="display: flex; justify-content: space-between">
+
+          <mat-form-field appearance="fill"  class="flex" >
+            <mat-label>Mes</mat-label>
+            <mat-select  [(ngModel)]="citaFormulario.mes">
+              <mat-option *ngFor="let item of periodos" [value]="item.numero">{{item.nombre}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill"  class="flex" >
+            <mat-label>Año</mat-label>
+            <mat-select [(ngModel)]="citaFormulario.anio">
+              <mat-option *ngFor="let item of anios" [value]="item">{{item}}</mat-option>
+            </mat-select>
+          </mat-form-field>
+
+
+        </div>
+        <div class="fila" style="display: flex; justify-content: space-between">
+          <mat-form-field class="flex">
+            <mat-label>Hora Inicio </mat-label>
+            <input matInput [(ngModel)]="citaFormulario.horaInicio">
+          </mat-form-field>
+          <mat-form-field class="flex">
+            <mat-label>Hora Fin </mat-label>
+            <input matInput [(ngModel)]="citaFormulario.horaFin">
+          </mat-form-field>
+        </div>
+        <div  class="fila" style="display: flex; justify-content: space-between">
+          <button style="flex: 0.5" mat-raised-button  class="primary-bg flex" (click)="crearNuevo()" [hidden]="!(idSeleccionado == null)">
+            Crear
+          </button>
+          <button style="flex: 0.5" mat-raised-button class="primary-bg flex"  [hidden]="idSeleccionado == null || !(idSeleccionado != 0)" (click)="modificar()">
+            Modificar
+          </button>
+          <button style="flex: 0.5" class=" flex" mat-raised-button type="button" (click)="cancelar()">
+            Cancelar
+          </button>
+        </div>
+
+      </div>
+      <div style="width: 49%">
+
+        <div class="fila">
+
+          <div flex="90" class="contenedor-dias" *ngIf="cuadricula.length > 0 ">
+            <div class="dia">Dom</div>
+            <div class="dia">Lun</div>
+            <div class="dia">Mar</div>
+            <div class="dia">Mie</div>
+            <div class="dia">Jue</div>
+            <div class="dia">Vie</div>
+            <div class="dia">Sab</div>
+            <div *ngFor="let item of cuadricula" class="dia" style="margin-bottom: 1px !important;" (click)="seleccionarDia(item)">
+              <section class="fila">
+                <div  [ngClass]="{ 'seleccionado' : item.seleccionado}" class="diacalend">
+                  <p> {{item.dia}} </p>
+                </div>
+              </section>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <br>
+    <div>
+      <table mat-table [dataSource]="horarios" class="mat-elevation-z8">
+
+        <ng-container matColumnDef="fecha">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaInicio | date:'dd-MM-yyyy'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="idmedico">
+          <th mat-header-cell *matHeaderCellDef> Medico </th>
+          <td mat-cell *matCellDef="let element"> {{element.medico.nombre + ' ' + element.medico.apellido}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="horaInicio">
+          <th mat-header-cell *matHeaderCellDef> Hora Inicio </th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaInicio  | date:'HH:mm'}} </td>
+        </ng-container>
+
+
+        <ng-container matColumnDef="horaFin">
+          <th mat-header-cell *matHeaderCellDef> Hora Fin </th>
+          <td mat-cell *matCellDef="let element"> {{element.fechaFin  | date:'HH:mm'}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="action">
+          <th mat-header-cell *matHeaderCellDef> Acción </th>
+          <td mat-cell *matCellDef="let element">
+
+            <button type="button" (click)="cargarDatos(element)" mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+                    class="action-button">
+              <mat-icon>edit</mat-icon>
+            </button>
+
+            <button type="button" (click)="mostrarConfirmarEliminar(element)" mat-icon-button aria-label="Example icon button with a vertical three dot icon"
+                    class="action-button">
+              <mat-icon>delete</mat-icon>
+            </button>
+
+          </td>
+        </ng-container>
+
+
+
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </div>
+</div>
