@@ -26,6 +26,11 @@ public class PacienteServicioImpl implements PacienteService {
     }
 
     @Override
+    public List<Paciente> filtrar(String filtro) {
+        return pacienteRepositorio.buscarPorNombreODni(filtro);
+    }
+
+    @Override
     public RespuestaControlador guardar(Paciente paciente) {
         RespuestaControlador respuestaControlador;
         pacienteRepositorio.save(paciente);

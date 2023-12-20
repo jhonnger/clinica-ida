@@ -10,6 +10,8 @@ public interface PacienteService {
 
     List<Paciente> listarPaciente();
 
+    List<Paciente> filtrar(String filtro);
+
     public RespuestaControlador guardar (Paciente paciente);
 
     public RespuestaControlador actualizar (Paciente paciente);
