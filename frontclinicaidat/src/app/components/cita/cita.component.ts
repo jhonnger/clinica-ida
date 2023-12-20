@@ -148,7 +148,7 @@ export class CitaComponent implements OnInit{
     const idMedicoSeleccionado = this.formulario.value.medico;
     const idAseguradoraSeleccionado = this.formulario.value.aseguradora;
     const idUsuarioSeleccionado = this.formulario.value.usuario;
-    cita.paciente = this.pacientes.find(r => r.id === idPacienteSeleccionado);
+    cita.paciente = this.cita.paciente;
     cita.medico = this.medicos.find(r => r.id === idMedicoSeleccionado);
     cita.aseguradora = this.aseguradoras.find(r => r.id === idAseguradoraSeleccionado);
     cita.usuario = this.usuarios.find(r => r.id === idUsuarioSeleccionado);
